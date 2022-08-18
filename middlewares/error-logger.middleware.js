@@ -1,4 +1,4 @@
-const { logger } = require('../helpers/logger.helpers')
+const logger = require('../helpers/logger.helpers')
 
 module.exports = (err, req, res, next) => {
   logger.error(`${req.path} - ${err.message}`)

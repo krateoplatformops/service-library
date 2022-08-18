@@ -1,6 +1,6 @@
 const axios = require('axios')
 const uriHelpers = require('./uri.helpers')
-const { logger } = require('./logger.helpers')
+const logger = require('./logger.helpers')
 
 const downloadFile = async (endpoint, docs) => {
   const token = endpoint.data.find((x) => x.key === 'token')

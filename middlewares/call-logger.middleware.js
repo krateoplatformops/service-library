@@ -1,4 +1,4 @@
-const { logger } = require('../helpers/logger.helpers')
+const logger = require('../helpers/logger.helpers')
 const { pathConstants } = require('../constants')
 
 module.exports = (req, res, next) => {
