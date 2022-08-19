@@ -1,4 +1,4 @@
-const { logger } = require('./logger.helpers')
+const logger = require('./logger.helpers')
 
 const create = async (client, spec) => {
   spec.metadata = spec.metadata || {}
