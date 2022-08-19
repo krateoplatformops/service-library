@@ -12,7 +12,7 @@ const create = async (client, spec) => {
   spec.metadata.annotations[
     'kubectl.kubernetes.io/last-applied-configuration'
   ] = JSON.stringify(spec)
-  await client
+  return await client
     .read(spec)
     .then(async () => {
       await client
@@ -28,21 +28,25 @@ const create = async (client, spec) => {
             }
           }
         )
-        .then(async () => {
+        .then(async (item) => {
           logger.debug('patched')
+          return item
         })
-        .catch(async () => {
+        .catch(async (err) => {
           logger.debug(`Error patching ${spec.kind} ${spec.metadata.name}`)
+          return err
         })
     })
     .catch(async () => {
-      await client
+      return await client
         .create(spec)
-        .then(async () => {
+        .then(async (item) => {
           logger.debug(`Create ${spec.kind} ${spec.metadata.name}`)
+          return item
         })
-        .catch(async () => {
+        .catch(async (err) => {
           logger.debug(`Error creating ${spec.kind} ${spec.metadata.name}`)
+          return err
         })
     })
 }
@@ -82,13 +86,15 @@ const wait = async (client, spec) => {
 }
 
 const remove = async (client, spec) => {
-  await client
+  return await client
     .delete(spec)
-    .then(async () => {
+    .then(async (item) => {
       logger.info(`Delete ok ${spec.kind} ${spec.metadata.name}`)
+      return item
     })
-    .catch(async () => {
+    .catch(async (err) => {
       logger.info(`Error deleting ${spec.kind} ${spec.metadata.name}`)
+      return err
     })
 }
 
@@ -154,7 +160,7 @@ const deleteByName = async (api, name) => {
 
   const opts = {}
   kc.applyToRequest(opts)
-  await new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     request.delete(
       encodeURI(`${kc.getCurrentCluster().server}${api}/${name}`),
       opts,
@@ -167,8 +173,6 @@ const deleteByName = async (api, name) => {
       }
     )
   })
-
-  return true
 }
 
 module.exports = {
