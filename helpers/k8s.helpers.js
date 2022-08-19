@@ -114,7 +114,7 @@ const getList = async (api) => {
 
   const payload = yaml.load(s)
 
-  return payload
+  return payload.items
 }
 
 const getSingleByName = async (api, name) => {
