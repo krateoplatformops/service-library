@@ -1,3 +1,6 @@
+const k8s = require('@kubernetes/client-node')
+const request = require('request')
+const yaml = require('js-yaml')
 const logger = require('./logger.helpers')
 
 const create = async (client, spec) => {
