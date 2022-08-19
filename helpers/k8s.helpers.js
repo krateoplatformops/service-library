@@ -15,7 +15,7 @@ const create = async (client, spec) => {
   return await client
     .read(spec)
     .then(async () => {
-      await client
+      return await client
         .patch(
           spec,
           {},
@@ -30,7 +30,7 @@ const create = async (client, spec) => {
         )
         .then(async (item) => {
           logger.debug('patched')
-          return item
+          return item.body
         })
         .catch(async (err) => {
           logger.debug(`Error patching ${spec.kind} ${spec.metadata.name}`)
@@ -42,7 +42,7 @@ const create = async (client, spec) => {
         .create(spec)
         .then(async (item) => {
           logger.debug(`Create ${spec.kind} ${spec.metadata.name}`)
-          return item
+          return item.body
         })
         .catch(async (err) => {
           logger.debug(`Error creating ${spec.kind} ${spec.metadata.name}`)
@@ -135,10 +135,10 @@ const getSingleByName = async (api, name) => {
       opts,
       (error, response, data) => {
         logger.debug(JSON.stringify(response))
-        if (error) {
-          logger.error(error)
-          reject(error)
-        } else resolve(data)
+        if (response.statusCode === 200) {
+          resolve(data)
+        }
+        reject(error)
       }
     )
   })
@@ -150,8 +150,15 @@ const getSingleByName = async (api, name) => {
 
 const getSingleByUid = async (api, uid) => {
   const list = await getList(api)
+  const item = list.find((x) => x.metadata.uid === uid)
 
-  return list.find((x) => x.metadata.uid === uid)
+  if (!item) {
+    const error = new Error(`${uid} not found`)
+error.statusCode = 404
+throw error;
+  }
+
+  return item
 }
 
 const deleteByName = async (api, name) => {
@@ -165,7 +172,11 @@ const deleteByName = async (api, name) => {
       encodeURI(`${kc.getCurrentCluster().server}${api}/${name}`),
       opts,
       (error, response, data) => {
-        logger.debug(JSON.stringify(response))
+        logger.debug(JSON.stringify(data))
+        if (response.statusCode === 200) {
+          resolve(data)
+        }
+        reject(error)
         if (error) {
           logger.error(error)
           reject(error)
