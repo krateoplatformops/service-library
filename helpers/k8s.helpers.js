@@ -89,8 +89,64 @@ const remove = async (client, spec) => {
     })
 }
 
+const getList = async (api) => {
+  const kc = new k8s.KubeConfig()
+  kc.loadFromDefault()
+
+  const opts = {}
+  kc.applyToRequest(opts)
+  const s = await new Promise((resolve, reject) => {
+    request(
+      encodeURI(`${kc.getCurrentCluster().server}${api}`),
+      opts,
+      (error, response, data) => {
+        logger.debug(JSON.stringify(response))
+        if (error) {
+          logger.error(error)
+          reject(error)
+        } else resolve(data)
+      }
+    )
+  })
+
+  const payload = yaml.load(s)
+
+  return payload
+}
+
+const getSingleByName = async (api, name) => {
+  const kc = new k8s.KubeConfig()
+  kc.loadFromDefault()
+
+  const opts = {}
+  kc.applyToRequest(opts)
+  const s = await new Promise((resolve, reject) => {
+    request(
+      encodeURI(
+        `${kc.getCurrentCluster().server}${api}/${name}`
+      ),
+      opts,
+      (error, response, data) => {
+        logger.debug(JSON.stringify(response))
+        if (error) {
+          logger.error(error)
+          reject(error)
+        } else resolve(data)
+      }
+    )
+  })
+
+  const payload = yaml.load(s)
+
+  return payload
+}
+
 module.exports = {
   create,
   wait,
-  remove
+  remove,
+  getList,
+  getSingle,
+  getSingleByName,
+  // getSingleByIuid
 }
