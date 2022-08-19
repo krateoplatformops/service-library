@@ -142,11 +142,17 @@ const getSingleByName = async (api, name) => {
   return payload
 }
 
+const getSingleByUid = async (api, uid) => {
+  const list = await getList(api)
+
+  return list.find(x => x.metadata.uid === uid)
+}
+
 module.exports = {
   create,
   wait,
   remove,
   getList,
-  getSingleByName
-  // getSingleByIuid
+  getSingleByName,
+  getSingleByUid
 }
