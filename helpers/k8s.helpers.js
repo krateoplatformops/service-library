@@ -148,7 +148,7 @@ const getSingleByUid = async (api, uid) => {
   return list.find((x) => x.metadata.uid === uid)
 }
 
-const removeByName = async (api, name) => {
+const deleteByName = async (api, name) => {
   const kc = new k8s.KubeConfig()
   kc.loadFromDefault()
 
@@ -178,5 +178,5 @@ module.exports = {
   getList,
   getSingleByName,
   getSingleByUid,
-  removeByName
+  deleteByName
 }
