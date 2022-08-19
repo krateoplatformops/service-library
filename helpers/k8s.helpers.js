@@ -122,9 +122,7 @@ const getSingleByName = async (api, name) => {
   kc.applyToRequest(opts)
   const s = await new Promise((resolve, reject) => {
     request(
-      encodeURI(
-        `${kc.getCurrentCluster().server}${api}/${name}`
-      ),
+      encodeURI(`${kc.getCurrentCluster().server}${api}/${name}`),
       opts,
       (error, response, data) => {
         logger.debug(JSON.stringify(response))
@@ -146,7 +144,6 @@ module.exports = {
   wait,
   remove,
   getList,
-  getSingle,
-  getSingleByName,
+  getSingleByName
   // getSingleByIuid
 }
