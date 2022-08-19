@@ -145,7 +145,30 @@ const getSingleByName = async (api, name) => {
 const getSingleByUid = async (api, uid) => {
   const list = await getList(api)
 
-  return list.find(x => x.metadata.uid === uid)
+  return list.find((x) => x.metadata.uid === uid)
+}
+
+const removeByName = async (api, name) => {
+  const kc = new k8s.KubeConfig()
+  kc.loadFromDefault()
+
+  const opts = {}
+  kc.applyToRequest(opts)
+  await new Promise((resolve, reject) => {
+    request.delete(
+      encodeURI(`${kc.getCurrentCluster().server}${api}/${name}`),
+      opts,
+      (error, response, data) => {
+        logger.debug(JSON.stringify(response))
+        if (error) {
+          logger.error(error)
+          reject(error)
+        } else resolve(data)
+      }
+    )
+  })
+
+  return true
 }
 
 module.exports = {
@@ -154,5 +177,6 @@ module.exports = {
   remove,
   getList,
   getSingleByName,
-  getSingleByUid
+  getSingleByUid,
+  removeByName
 }
