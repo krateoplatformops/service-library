@@ -8,7 +8,7 @@ const downloadFile = async (endpoint, docs) => {
     Authorization: `token ${token.val}`
   }
 
-  console.log(headers)
+  logger.debug(headers)
 
   const regex = /(?<=\[)[^\]\[]*(?=])/gm
 
