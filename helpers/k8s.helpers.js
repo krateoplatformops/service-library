@@ -120,7 +120,7 @@ const getList = async (api) => {
 
   const payload = yaml.load(s)
 
-  return payload.items
+  return payload.items || []
 }
 
 const getSingleByName = async (api, name) => {
@@ -154,8 +154,8 @@ const getSingleByUid = async (api, uid) => {
 
   if (!item) {
     const error = new Error(`${uid} not found`)
-error.statusCode = 404
-throw error;
+    error.statusCode = 404
+    throw error
   }
 
   return item
