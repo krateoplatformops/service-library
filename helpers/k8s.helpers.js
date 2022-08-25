@@ -104,22 +104,21 @@ const getList = async (api, ls = null) => {
 
   const opts = {}
   kc.applyToRequest(opts)
+
+  const url = encodeURI(
+    `${kc.getCurrentCluster().server}${api}${ls ? `?labelSelector=${ls}` : ''}`
+  )
+
+  logger.debug(url)
+
   const s = await new Promise((resolve, reject) => {
-    request(
-      encodeURI(
-        `${kc.getCurrentCluster().server}${api}${
-          ls ? `?labelSelector=${ls}` : ''
-        }`
-      ),
-      opts,
-      (error, response, data) => {
-        logger.debug(JSON.stringify(response))
-        if (error) {
-          logger.error(error)
-          reject(error)
-        } else resolve(data)
-      }
-    )
+    request(url, opts, (error, response, data) => {
+      logger.debug(JSON.stringify(response))
+      if (error) {
+        logger.error(error)
+        reject(error)
+      } else resolve(data)
+    })
   })
 
   const payload = yaml.load(s)
