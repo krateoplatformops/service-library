@@ -98,7 +98,7 @@ const remove = async (client, spec) => {
     })
 }
 
-const getList = async (api) => {
+const getList = async (api, ls = null) => {
   const kc = new k8s.KubeConfig()
   kc.loadFromDefault()
 
@@ -106,7 +106,11 @@ const getList = async (api) => {
   kc.applyToRequest(opts)
   const s = await new Promise((resolve, reject) => {
     request(
-      encodeURI(`${kc.getCurrentCluster().server}${api}`),
+      encodeURI(
+        `${kc.getCurrentCluster().server}${api}${
+          ls ? `?labelSelector=${ls}` : ''
+        }`
+      ),
       opts,
       (error, response, data) => {
         logger.debug(JSON.stringify(response))
