@@ -9,7 +9,7 @@ const downloadFile = async (endpoint, docs) => {
     Authorization: `Bearer ${bearer.val}`
   }
 
-  const regex = /(?<=\[)[^\]\[]*(?=])/gm
+  const regex = /(?<=\[)[^\]\\[]*(?=])/gm
 
   return await Promise.all(
     docs.split(',').map(async (p) => {

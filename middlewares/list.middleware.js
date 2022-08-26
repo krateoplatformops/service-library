@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  let oldSend = res.send
+  const oldSend = res.send
   res.send = (data) => {
     try {
       if (data) {

@@ -10,7 +10,7 @@ const downloadFile = async (endpoint, docs) => {
 
   logger.debug(headers)
 
-  const regex = /(?<=\[)[^\]\[]*(?=])/gm
+  const regex = /(?<=\[)[^\]\\[]*(?=])/gm
 
   return await Promise.all(
     docs.split(',').map(async (p) => {

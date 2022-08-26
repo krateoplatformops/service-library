@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const { envConstants, cookieConstants } = require('./../constants')
 
 const sign = (obj) => {

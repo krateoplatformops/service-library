@@ -81,8 +81,9 @@ const wait = async (client, spec) => {
       })
     attempt++
   }
-  if (!ready)
+  if (!ready) {
     throw new Error(`Timeout waiting for ${spec.kind} ${spec.metadata.name}`)
+  }
 }
 
 const remove = async (client, spec) => {

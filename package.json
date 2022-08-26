@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "prettier --check .",
-    "format": "prettier --write . && git add -A .",
-    "prepare": "husky install"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
+    "format:git": "prettier --write . && git add -A ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,13 @@
   },
   "homepage": "https://github.com/krateoplatformops/service-library#readme",
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "husky": "^8.0.0"
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-promise": "^6.0.1",
+    "husky": "^8.0.0",
+    "prettier": "^2.7.1"
   }
 }
