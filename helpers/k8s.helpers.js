@@ -6,8 +6,7 @@ const logger = require('./logger.helpers')
 const init = () => {
   const port = process.env.KUBERNETES_SERVICE_PORT
   if (isNaN(parseInt(port))) {
-    process.env.KUBERNETES_SERVICE_PORT =
-      process.env.KUBERNETES_PORT_443_TCP_PORT
+    process.env.KUBERNETES_SERVICE_PORT = 443
   }
 }
 
