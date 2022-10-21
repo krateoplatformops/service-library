@@ -3,6 +3,13 @@ const request = require('request')
 const yaml = require('js-yaml')
 const logger = require('./logger.helpers')
 
+const init = () => {
+  const port = process.env.KUBERNETES_SERVICE_PORT
+  if (isNaN(parseInt(port))) {
+    process.env.KUBERNETES_SERVICE_PORT = '443'
+  }
+}
+
 const create = async (client, spec) => {
   spec.metadata = spec.metadata || {}
   spec.metadata.annotations = spec.metadata.annotations || {}
@@ -191,6 +198,7 @@ const deleteByName = async (api, name) => {
 }
 
 module.exports = {
+  init,
   create,
   wait,
   remove,

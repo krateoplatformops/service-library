@@ -30,5 +30,8 @@
     "eslint-plugin-promise": "^6.0.1",
     "husky": "^8.0.0",
     "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "winston": "^3.8.2"
   }
 }
