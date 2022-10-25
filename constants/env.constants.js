@@ -14,5 +14,6 @@ module.exports = {
     `http://template-service.${process.env.NAMESPACE}.svc`,
   COOKIE_NAME: process.env.COOKIE_NAME || 'krateo-platformops',
   JWT_SECRET: process.env.JWT_SECRET || 'krateo-platformops',
-  JWT_ISSUER: process.env.JWT_ISSUER || 'krateo-platformops'
+  JWT_ISSUER: process.env.JWT_ISSUER || 'krateo-platformops',
+  NAMESPACE: process.env.NAMESPACE || 'krateo-system'
 }
