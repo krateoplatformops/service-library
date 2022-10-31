@@ -26,11 +26,9 @@ class Logger {
   }
 
   parseObj(a) {
-    try {
-      return !!a && a.constructor === Object ? JSON.stringify(a) : a
-    } catch {
-      return '[Object]'
-    }
+    return Object.prototype.toString.call(a) === '[object String]'
+      ? a
+      : JSON.stringify(a)
   }
 
   // Levels
