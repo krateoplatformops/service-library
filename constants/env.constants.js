@@ -1,6 +1,6 @@
 module.exports = {
   PORT: process.env.PORT || 8080,
-  LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+  LOG_LEVEL: (process.env.LOG_LEVEL || 'info').toLowerCase(),
   GIT_URI:
     process.env.GIT_URI || `http://git-service.${process.env.NAMESPACE}.svc`,
   SECRET_URI:
