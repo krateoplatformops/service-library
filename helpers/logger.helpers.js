@@ -25,8 +25,12 @@ class Logger {
     })
   }
 
-  parseObj(obj) {
-    return typeof obj === 'object' ? JSON.stringify(obj) : obj
+  parseObj(a) {
+    try {
+      return !!a && a.constructor === Object ? JSON.stringify(a) : a
+    } catch {
+      return '[Object]'
+    }
   }
 
   // Levels
