@@ -58,6 +58,30 @@ const create = async (client, spec) => {
     })
 }
 
+const patch = async (api, name, patch) => {
+  return await api
+    .patch(
+      name,
+      patch,
+      'true',
+      {},
+      {},
+      {
+        headers: {
+          'content-type': 'application/merge-patch+json'
+        }
+      }
+    )
+    .then(async (item) => {
+      logger.debug(`patched ${name}`)
+      return item.body
+    })
+    .catch(async (err) => {
+      logger.debug(`Error patching ${name}`)
+      return err
+    })
+}
+
 const wait = async (client, spec) => {
   const maxAttempts = 10
   let ready = false
@@ -200,6 +224,7 @@ const deleteByName = async (api, name) => {
 module.exports = {
   init,
   create,
+  patch,
   wait,
   remove,
   getList,

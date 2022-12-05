@@ -12,6 +12,7 @@
   "rules": {
     "semi": 0,
     "no-console": 0,
-    "no-var": "error"
+    "no-var": "error",
+    "space-before-function-paren": 0
   }
 }
