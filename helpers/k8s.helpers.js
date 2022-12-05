@@ -59,27 +59,53 @@ const create = async (client, spec) => {
 }
 
 const patch = async (api, name, patch) => {
-  return await api
-    .patch(
-      name,
-      patch,
-      'true',
-      {},
-      {},
+  const kc = new k8s.KubeConfig()
+  kc.loadFromDefault()
+
+  const opts = {}
+  kc.applyToRequest(opts)
+  return await new Promise((resolve, reject) => {
+    request.patch(
       {
-        headers: {
-          'content-type': 'application/merge-patch+json'
+        url: encodeURI(`${kc.getCurrentCluster().server}${api}/${name}`),
+        body: patch,
+        json: true,
+        ...opts
+      },
+      (error, response, data) => {
+        logger.debug(JSON.stringify(data))
+        if (response.statusCode === 200) {
+          resolve(data)
         }
+        reject(error)
+        if (error) {
+          logger.error(error)
+          reject(error)
+        } else resolve(data)
       }
     )
-    .then(async (item) => {
-      logger.debug(`patched ${name}`)
-      return item.body
-    })
-    .catch(async (err) => {
-      logger.debug(`Error patching ${name}`)
-      return err
-    })
+  })
+  // return await api
+  //   .patch(
+  //     name,
+  //     patch,
+  //     'true',
+  //     {},
+  //     {},
+  //     {
+  //       headers: {
+  //         'content-type': 'application/merge-patch+json'
+  //       }
+  //     }
+  //   )
+  //   .then(async (item) => {
+  //     logger.debug(`patched ${name}`)
+  //     return item.body
+  //   })
+  //   .catch(async (err) => {
+  //     logger.debug(`Error patching ${name}`)
+  //     return err
+  //   })
 }
 
 const wait = async (client, spec) => {
