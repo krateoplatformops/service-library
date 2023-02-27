@@ -4,9 +4,11 @@ const uriHelpers = require('./uri.helpers')
 const logger = require('./logger.helpers')
 const stringHelpers = require('./string.helpers')
 
-const getFile = async ({ endpointName, org, repo, fileName }) => {
+const getFile = async ({ endpointName, path, fileName }) => {
   try {
-    const location = encodeURIComponent(`[${org}][${repo}]${fileName}`)
+    const location = encodeURIComponent('[' + path.join('][') + ']')
+
+    logger.debug(location)
 
     const gitUrl = uriHelpers.concatUrl([
       envConstants.GIT_URI,
