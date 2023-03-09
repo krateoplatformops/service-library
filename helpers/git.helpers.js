@@ -6,7 +6,7 @@ const stringHelpers = require('./string.helpers')
 
 const getFile = async ({ endpointName, path, fileName }) => {
   try {
-    const location = encodeURIComponent('[' + path.join('][') + ']')
+    const location = encodeURIComponent('[' + path.join('][') + ']' + fileName)
 
     logger.debug(location)
 
