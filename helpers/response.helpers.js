@@ -1,5 +1,5 @@
 const parse = (data) => {
-  delete data.metadata.creationTimestamp
+  // delete data.metadata.creationTimestamp
   delete data.metadata.generation
   delete data.metadata.resourceVersion
   delete data.metadata.selfLink
