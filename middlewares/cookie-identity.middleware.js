@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
       logger.debug('Identity from cookie')
     }
   } catch {
-    res.locals.identity = { id: 'unknown', username: 'unknown' }
+    // res.locals.identity = { id: 'unknown', username: 'unknown' }
   }
 
   next()
